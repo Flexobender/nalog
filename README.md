@@ -7,3 +7,4 @@ Hi, I’m Alexei
 - 📫 How to reach me: my mail is a_m@list.ru
 - THIS repo consists of streamlit app to calculate Personal income tax online calculation for Russia according to local fiscal law
 - Language - Russian
+- updates comming soon
