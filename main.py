@@ -44,6 +44,8 @@ def nalog():
                 None,
                 "Согласно ст. 2 СК РФ к членам семьи отнесены супруги, родители и дети, а также усыновители и усыновленные. А близкими родственниками считаются родственники по прямой восходящей и нисходящей линии: родители и дети, дедушка, бабушка и внуки, полнородные и неполнородные (имеющие общих отца или мать) братья и сестры (ст. 14 СК РФ)",
             )
+            if gift:
+                return outcome(tax)
             if living:
                 sole_home = st.checkbox(
                     "Продажа единственного жилья",
@@ -72,14 +74,16 @@ def nalog():
         if tax_resident:
             no_cost = st.checkbox("Нет документов по расходам на приобретение")
             second_reduct = st.checkbox("Налоговый вычет уже использован в этом году")
-            if living:
-                cost_reduct = 1000000
+            if not second_reduct:
+                if living:
+                    cost_reduct = 1000000
+                else:
+                    cost_reduct = 250000
             else:
-                cost_reduct = 250000
+                cost_reduct = 0
             if not no_cost:
                 cost = st.number_input("Сумма подтвержденных расходов",None,None,0,1000)
-            elif second_reduct:
-                cost_reduct = 0
+
         else:
             rate = 0.3
         income = st.number_input("Сумма продажи в договоре",None,None,0,1000)
