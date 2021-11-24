@@ -37,34 +37,36 @@ def nalog():
             None,
             "Находились в России 183 дня в налоговом году",
         )
-        if more3 & living:
-            sole_home = st.checkbox(
-                "Продажа единственного жилья",
-                False,
-                None,
-                "По общему правилу под единственным жильем понимается жилое помещение, которое является для гражданина и членов его семьи единственным пригодным для постоянного проживания",
-            )
-            second_home_bought_in_90_days_before = st.checkbox(
-                "Купил второе жилье втечении 90 дней до регистрации продажи"
-            )
-            privatisation = st.checkbox("Продажа приватизированного жилья")
+        if more3:
             gift = st.checkbox(
-                "Жилье подарил близкий родственник или член семьи",
+                "Недвижимость подарил близкий родственник или член семьи, либо получена в наследство",
                 False,
                 None,
                 "Согласно ст. 2 СК РФ к членам семьи отнесены супруги, родители и дети, а также усыновители и усыновленные. А близкими родственниками считаются родственники по прямой восходящей и нисходящей линии: родители и дети, дедушка, бабушка и внуки, полнородные и неполнородные (имеющие общих отца или мать) братья и сестры (ст. 14 СК РФ)",
             )
-            renta = st.checkbox(
-                "Жилье получено по договору пожизненного содержания с иждивением"
-            )
-            if (
-                sole_home
-                | second_home_bought_in_90_days_before
-                | privatisation
-                | gift
-                | renta
-            ):
-                return outcome(tax)
+            if living:
+                sole_home = st.checkbox(
+                    "Продажа единственного жилья",
+                    False,
+                    None,
+                    "По общему правилу под единственным жильем понимается жилое помещение, которое является для гражданина и членов его семьи единственным пригодным для постоянного проживания",
+                )
+                second_home_bought_in_90_days_before = st.checkbox(
+                    "Купил второе жилье втечении 90 дней до регистрации продажи"
+                )
+                privatisation = st.checkbox("Продажа приватизированного жилья")
+
+                renta = st.checkbox(
+                    "Жилье получено по договору пожизненного содержания с иждивением"
+                )
+                if (
+                    sole_home
+                    | second_home_bought_in_90_days_before
+                    | privatisation
+                    | gift
+                    | renta
+                ):
+                    return outcome(tax)
         cost = 0
         cost_reduct = 0
         if tax_resident:
@@ -75,13 +77,13 @@ def nalog():
             else:
                 cost_reduct = 250000
             if not no_cost:
-                cost = st.number_input("Сумма подтвержденных расходов")
+                cost = st.number_input("Сумма подтвержденных расходов",None,None,0,1000)
             elif second_reduct:
                 cost_reduct = 0
         else:
             rate = 0.3
-        income = st.number_input("Сумма продажи в договоре")
-        kadastr = st.number_input("Кадастровая стоимость")
+        income = st.number_input("Сумма продажи в договоре",None,None,0,1000)
+        kadastr = st.number_input("Кадастровая стоимость",None,None,0,1000)
         tax = (max(kadastr * 0.7, income) - max(cost, cost_reduct)) * rate
     else:
         tax = 0
